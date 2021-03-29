@@ -1,0 +1,30 @@
+import { category, PrismaClient } from '@prisma/client'
+import {RequestHandler} from 'express'
+import {ICategory} from './categories.model'
+const prisma = new PrismaClient()
+
+export const getCategories:RequestHandler = async (req,res) => {  
+    try {
+        const categories = await prisma.category.findMany();
+        return res.json(categories);
+    } catch (error) {
+        res.json(error);
+    }
+};
+
+export const createCategory:RequestHandler = async(req,res) => {  
+    const category:ICategory=req.body;
+    console.log(category);
+    const insert = await prisma.category.create({
+        data:{
+            description:category.description
+        }
+    });
+    res.json('Category Saved');
+};
+
+export const getCategory:RequestHandler = async(req,res) => {   
+    const category= await prisma.category.findFirst({where:{id:parseInt(req.params.id)}})
+    if(!category) return res.status(204).json();
+    return res.json(category);
+};
