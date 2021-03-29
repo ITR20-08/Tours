@@ -4,6 +4,8 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import  categoriesRoutes from '../src/modules/categories/categories.routes'
+import  locationsRoutes from './modules/locations/locations.routes'
+import  toursRoutes from './modules/tours/tours.routes'
 
 const app= express();
 
@@ -16,5 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(categoriesRoutes);
+app.use(locationsRoutes);
+app.use(toursRoutes)
 
 export default app;
