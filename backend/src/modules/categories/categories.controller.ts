@@ -1,7 +1,6 @@
-import { category, PrismaClient } from '@prisma/client'
 import {RequestHandler} from 'express'
 import {ICategory} from './categories.model'
-const prisma = new PrismaClient()
+import prisma from '../../database'
 
 export const getCategories:RequestHandler = async (req,res) => {  
     try {
@@ -15,7 +14,7 @@ export const getCategories:RequestHandler = async (req,res) => {
 export const createCategory:RequestHandler = async(req,res) => {  
     const category:ICategory=req.body;
     console.log(category);
-    const insert = await prisma.category.create({
+    await prisma.category.create({
         data:{
             description:category.description
         }

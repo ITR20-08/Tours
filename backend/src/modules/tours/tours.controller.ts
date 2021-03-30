@@ -1,8 +1,8 @@
-import { tour , PrismaClient } from '@prisma/client'
 import { RequestHandler } from 'express'
-import { ITour } from './tours.model'
 
-const prisma = new PrismaClient()
+
+import prisma from '../../database'
+
 
 export const getTours:RequestHandler = async (req,res) => {  
     try {
@@ -14,13 +14,16 @@ export const getTours:RequestHandler = async (req,res) => {
 };
 
 export const getTour:RequestHandler = async(req,res) => {   
-    const tour = await prisma.tour.findFirst({where:{id:parseInt(req.params.id)}})
+    const tour = await prisma.tour.findFirst({
+        where:{id:parseInt(req.params.id)}
+    
+    });
     if(!tour) return res.status(204).json();
     return res.json(tour);
 };
 
 export const createTour:RequestHandler = async(req,res) => {  
-    const tour:ITour = req.body;
+    const tour = req.body;
     const createTour = await prisma.tour.create({
         data:{
             name: tour.name,
@@ -40,6 +43,19 @@ export const createTour:RequestHandler = async(req,res) => {
     });
     res.json('Tour Saved');
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
 //type of tour object example for postman test
 
 // {
@@ -55,5 +71,8 @@ export const createTour:RequestHandler = async(req,res) => {
 //     },
 //     "location": {
 //         "id": 1
-//     }
+//     },
+//      "benefits":[]
+//          
+//
 // }
