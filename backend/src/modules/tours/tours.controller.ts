@@ -1,8 +1,5 @@
 import { RequestHandler } from 'express'
-
-
 import prisma from '../../database'
-
 
 export const getTours:RequestHandler = async (req,res) => {  
     try {

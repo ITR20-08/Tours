@@ -1,5 +1,4 @@
 import {RequestHandler} from 'express'
-import {ICategory} from './categories.model'
 import prisma from '../../database'
 
 export const getCategories:RequestHandler = async (req,res) => {  
@@ -12,11 +11,10 @@ export const getCategories:RequestHandler = async (req,res) => {
 };
 
 export const createCategory:RequestHandler = async(req,res) => {  
-    const category:ICategory=req.body;
-    console.log(category);
+    const category =req.body;
     await prisma.category.create({
         data:{
-            description:category.description
+            description: category.description
         }
     });
     res.json('Category Saved');

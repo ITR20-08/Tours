@@ -1,8 +1,6 @@
 import { RequestHandler } from 'express'
-import { ILocation } from './locations.model'
 
 import prisma from '../../database'
-
 
 export const getLocations:RequestHandler = async (req,res) => {  
     try {
@@ -20,7 +18,7 @@ export const getLocation:RequestHandler = async(req,res) => {
 };
 
 export const createLocation:RequestHandler = async(req,res) => {  
-    const location:ILocation = req.body;
+    const location = req.body;
      await prisma.location.create({
         data:{
             country: location.country,
