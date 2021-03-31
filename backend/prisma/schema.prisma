@@ -27,17 +27,17 @@ model location {
 }
 
 model picture {
-  id      Int   @id @default(autoincrement())
-  Tour    Int
-  picture Bytes @db.Blob
-  tour    tour  @relation(fields: [Tour], references: [id])
+  id      Int    @id @default(autoincrement())
+  Tour    String @db.VarChar(20)
+  picture Bytes  @db.Blob
+  tour    tour   @relation(fields: [Tour], references: [id])
 
   @@index([Tour], name: "fk_Pictures_Tour1_idx")
 }
 
 model reservation {
   id       Int    @id @default(autoincrement())
-  Tour     Int
+  Tour     String @db.VarChar(20)
   quantity Int
   User     String @db.VarChar(45)
   tour     tour   @relation(fields: [Tour], references: [id])
@@ -51,7 +51,7 @@ model review {
   id           Int    @id @default(autoincrement())
   description  String @db.VarChar(45)
   calification Int
-  Tour         Int
+  Tour         String @db.VarChar(20)
   User         String @db.VarChar(45)
   tour         tour   @relation(fields: [Tour], references: [id])
   user         user   @relation(fields: [User], references: [email])
@@ -61,7 +61,7 @@ model review {
 }
 
 model tour {
-  id               Int            @id @default(autoincrement())
+  id               String         @id @db.VarChar(20)
   name             String         @db.VarChar(45)
   description      String         @db.VarChar(45)
   duration         Int
@@ -83,7 +83,7 @@ model tour {
 }
 
 model tour_benefit {
-  Tour    Int
+  Tour    String  @db.VarChar(20)
   Benefit Int
   benefit benefit @relation(fields: [Benefit], references: [id])
   tour    tour    @relation(fields: [Tour], references: [id])

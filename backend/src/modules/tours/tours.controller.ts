@@ -3,7 +3,13 @@ import prisma from '../../database'
 
 export const getTours:RequestHandler = async (req,res) => {  
     try {
-        const tours = await prisma.tour.findMany();
+        const tours = await prisma.tour.findMany({
+            include: {
+                benefits: { 
+
+                }
+            }
+        });
         return res.json(tours);
     } catch (error) {
         res.json(error);
@@ -12,7 +18,7 @@ export const getTours:RequestHandler = async (req,res) => {
 
 export const getTour:RequestHandler = async(req,res) => {   
     const tour = await prisma.tour.findFirst({
-        where:{id:parseInt(req.params.id)}
+        where:{id: req.params.id}
     
     });
     if(!tour) return res.status(204).json();
@@ -21,8 +27,9 @@ export const getTour:RequestHandler = async(req,res) => {
 
 export const createTour:RequestHandler = async(req,res) => {  
     const tour = req.body;
-    const createTour = await prisma.tour.create({
+    await prisma.tour.create({
         data:{
+            id: tour.id,
             name: tour.name,
             description: tour.description,
             duration: tour.duration,
@@ -35,41 +42,51 @@ export const createTour:RequestHandler = async(req,res) => {
             },
             location: {
                 connect: { id: tour.location.id },
-            }
+            },
         }
     });
+    for (let entry of tour.benefits){
+        await prisma.tour_benefit.create({
+            data: {
+                tour: { 
+                    connect: {id: tour.id}
+                },
+                benefit: {
+                    connect: {id: entry}
+                }
+            }
+        })
+    }
     res.json('Tour Saved');
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 //type of tour object example for postman test
 
 // {
-//     "name": "Tour San Jose",
-//     "description": "Get to know the most popular places in San Jose",
-//     "duration": 2,
+//     "id": "CR-SJ02",
+//     "name": "San Jose Gastronomy Tour",
+//     "description": "Get to know San Jose most iconic restaurants!",
+//     "duration": 5,
 //     "start_date": "2021-04-10",
-//     "price_for_person": 40,
+//     "price_for_person": "200",
 //     "max_capacity": 20,
 //     "calification": 5,
 //     "category": {
-//         "id": 1
+//         "id": 2
 //     },
 //     "location": {
-//         "id": 1
-//     },
-//      "benefits":[]
-//          
-//
+//         "id": 2
+//     } ,
+//     "benefits": [2,3]  
 // }
+
+
+
+
+
+
+
+
+
+
+
+
