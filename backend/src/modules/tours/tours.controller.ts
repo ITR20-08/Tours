@@ -60,6 +60,7 @@ export const createTour:RequestHandler = async(req,res) => {
     res.json('Tour Saved');
 };
 //type of tour object example for postman test
+// benefits value corresponds of an array with the id of each of the benefits chosen for the admin for the tour
 
 // {
 //     "id": "CR-SJ02",
