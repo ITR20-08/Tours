@@ -29,16 +29,17 @@ export const createUser:RequestHandler = async(req,res) => {
 };
 
 export const getUser:RequestHandler = async(req,res) => {   
-    const user= await prisma.user.findFirst({where:{email:req.params.email}})
+    const user= await prisma.user.findFirst({where:{email:req.params.email,password:req.params.password}})
     if(!user) return res.status(204).json();
     return res.json(user);
 };
 
 //{
 //	"email":"isaac.toumarodriguez@gmail.com",
-//	"password":"1234",
+//	"password":"Pasword1234$",
 //	"name":"Isaac",
 //	"last_name":"Touma",
 //	"country":"Costa Rica",
 //	"birth_date": "2000-04-10"
+//   "type": "user"
 //}
