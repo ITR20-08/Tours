@@ -12,7 +12,9 @@ import { AuthProvider } from './shared/contexts';
 
 import Register from './modules/auth/register/register.component'
 import Login from './modules/auth/login/login.component'
-import { ROOT, LOGIN , REGISTER} from './shared/routes';
+import TourForm from './modules/tours/tours-form/tour-form.component'
+
+import { ROOT, LOGIN , REGISTER,TOUR_ADD} from './shared/routes';
 import Navigation from './modules/navigation/navigation.component'
 
 import reportWebVitals from './reportWebVitals';
@@ -23,6 +25,7 @@ ReactDOM.render(
    <Switch>
      <Route path={LOGIN} component={Login} />
      <Route path={REGISTER} component={Register} />
+     <Route path={TOUR_ADD} component={TourForm}/>
    </Switch>
   </Router>
   </AuthProvider>

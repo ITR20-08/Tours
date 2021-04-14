@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar,Nav,Button} from 'react-bootstrap';
-import {LOGIN, REGISTER} from '../../shared/routes'
+import {Navbar,Nav} from 'react-bootstrap';
+import {ROOT, LOGIN, REGISTER, TOUR_ADD} from '../../shared/routes'
 import {Link} from "react-router-dom";
 import cookies from '../../shared/cookies'
 import {AuthContext} from '../../shared/contexts'
@@ -12,12 +12,11 @@ export default function Header(){
 
 
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand>Tours</Navbar.Brand>
+        <Navbar.Brand><Link to={ROOT} style={{ textDecoration: 'none' , color:'white'}}>Home</Link></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-            <Nav.Link>Features</Nav.Link>
-            <Nav.Link>Pricing</Nav.Link>
+        {cookies.get('type')==="admin"?(<Navbar.Brand><Link to={TOUR_ADD} style={{ textDecoration: 'none' , color:'white'}}>Add-Tour</Link></Navbar.Brand>):""}
         </Nav>
         <Nav>
          {cookies.get('email')===undefined?(<Navbar.Brand><Link to={LOGIN}  style={{ textDecoration: 'none' , color:'white'}}>Login</Link></Navbar.Brand>):""}

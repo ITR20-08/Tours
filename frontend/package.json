@@ -19,6 +19,7 @@
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.2",
     "react-jss": "^10.6.0",
+    "react-multi-select-component": "^4.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.3",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "@types/react-select": "^4.0.14"
   }
 }

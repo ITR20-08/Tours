@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {Container, Form, Button } from 'react-bootstrap';
-import useStyles from '../auth.style';
+import useStyles from '../../../shared/styles/form.style';
 import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
 import {ICredentials} from '../shared/model/index'
 import { useFormik } from 'formik';

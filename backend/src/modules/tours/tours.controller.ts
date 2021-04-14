@@ -27,21 +27,22 @@ export const getTour:RequestHandler = async(req,res) => {
 
 export const createTour:RequestHandler = async(req,res) => {  
     const tour = req.body;
+    console.log(tour);
     await prisma.tour.create({
         data:{
             id: tour.id,
             name: tour.name,
             description: tour.description,
-            duration: tour.duration,
+            duration: parseInt(tour.duration),
             start_date: new Date(tour.start_date),
             price_for_person: tour.price_for_person,
-            max_capacity: tour.max_capacity,
+            max_capacity: parseInt(tour.max_capacity),
             calification: tour.calification,
             category: {
-                connect: { id: tour.category.id },
+                connect: { id: parseInt(tour.category) },
             },
             location: {
-                connect: { id: tour.location.id },
+                connect: { id: parseInt(tour.location) },
             },
         }
     });

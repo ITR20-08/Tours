@@ -1,5 +1,5 @@
 import {Container, Form, Button } from 'react-bootstrap';
-import useStyles from '../auth.style';
+import useStyles from '../../../shared/styles/form.style';
 import { REGISTER_FORM_SCHEMA, INITIAL_REGISTER_FORM_VALUES } from './register.util';
 import {IUserForm} from '../shared/model/index'
 import { useFormik } from 'formik';
@@ -68,7 +68,7 @@ const Register=()=> {
           <Form.Group >
           <Form.Label>Country</Form.Label>
           <Form.Control as="select" name="country"  onChange={handleChange}   id={errors.country ? "error" : ""} >
-          <option disabled selected>Select Country</option> 
+          <option key="" value="">Select Country</option> 
           {COUNTRIES.map(({name , code}) => (
           <option key={code} value={name}>
             {name}
@@ -78,7 +78,7 @@ const Register=()=> {
         </Form.Group>   
         <Form.Group controlId="formBasicBirthday">
           <Form.Label>Birthday</Form.Label>   
-            <input  className="form-control" type="date" value={values.birth_date} name="birth_date" onChange={handleChange}  id={ errors.birth_date ? "error" : ""} />
+            <Form.Control  className="form-control" type="date" value={values.birth_date} name="birth_date" onChange={handleChange}  id={ errors.birth_date ? "error" : ""} />
             {errors.birth_date ? (
                 <div id="error_message">{errors.birth_date}</div>
               ): null}

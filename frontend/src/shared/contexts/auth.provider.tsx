@@ -19,7 +19,9 @@ const AuthProvider: FC = ({ children }) => {
       cookies.set("email", user.email, {path: "/"});
       cookies.set("type", user.type, {path: "/"});
       cookies.set("country", user.country, {path: "/"});
-      window.location.href="./"; 
+      
+      user.type==="admin"? window.location.href="/tours/add":window.location.href="./";
+
     } else {
        alert("Correo o contraseña invalida");
     }
