@@ -45,7 +45,7 @@ const Login=()=> {
                 <div className="error_message">{errors.password}</div>
               ): null}
         </Form.Group>
-        <Button type="submit "variant="primary">
+        <Button type="submit" variant="primary">
           Login
         </Button>
         </Form>

@@ -5,19 +5,19 @@ import {Link} from "react-router-dom";
 import cookies from '../../shared/cookies'
 import {AuthContext} from '../../shared/contexts'
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 export default function Header(){
     const { logout } = useContext(AuthContext);
+    const history = useHistory();
 
     return (
-
-
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand>Tours</Navbar.Brand>
+        <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+        <Navbar.Brand style={{cursor:'pointer'}} onClick={() => history.push('/')}>Tours Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-            <Nav.Link>Features</Nav.Link>
-            <Nav.Link>Pricing</Nav.Link>
+            {/* <Nav.Link>Features</Nav.Link>
+            <Nav.Link>Pricing</Nav.Link> */}
         </Nav>
         <Nav>
          {cookies.get('email')===undefined?(<Navbar.Brand><Link to={LOGIN}  style={{ textDecoration: 'none' , color:'white'}}>Login</Link></Navbar.Brand>):""}

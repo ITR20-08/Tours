@@ -6,8 +6,12 @@ export const getTours:RequestHandler = async (req,res) => {
         const tours = await prisma.tour.findMany({
             include: {
                 benefits: { 
-
-                }
+                    include:{
+                        benefit: true
+                    }
+                },
+                category: true,
+                location: true
             }
         });
         return res.json(tours);
@@ -18,8 +22,18 @@ export const getTours:RequestHandler = async (req,res) => {
 
 export const getTour:RequestHandler = async(req,res) => {   
     const tour = await prisma.tour.findFirst({
-        where:{id: req.params.id}
-    
+        where:{
+            id: req.params.id
+        },
+        include: {
+            benefits: { 
+                include:{
+                    benefit: true
+                }
+            },
+            category: true,
+            location: true
+        }
     });
     if(!tour) return res.status(204).json();
     return res.json(tour);

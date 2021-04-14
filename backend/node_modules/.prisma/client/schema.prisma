@@ -29,7 +29,7 @@ model location {
 model picture {
   id      Int    @id @default(autoincrement())
   Tour    String @db.VarChar(20)
-  picture Bytes  @db.Blob
+  picture Bytes
   tour    tour   @relation(fields: [Tour], references: [id])
 
   @@index([Tour], name: "fk_Pictures_Tour1_idx")
@@ -73,6 +73,7 @@ model tour {
   Location         Int
   category         category       @relation(fields: [Category], references: [id])
   location         location       @relation(fields: [Location], references: [id])
+  favorite         favorite[]
   picture          picture[]
   reservation      reservation[]
   review           review[]
@@ -94,13 +95,25 @@ model tour_benefit {
 }
 
 model user {
+  email       String        @id @db.VarChar(45)
   name        String        @db.VarChar(45)
   last_name   String        @db.VarChar(45)
-  email       String        @id @db.VarChar(45)
   country     String        @db.VarChar(45)
   birth_date  DateTime      @db.Date
   password    String        @db.VarChar(45)
   type        String        @db.VarChar(45)
+  favorite    favorite[]
   reservation reservation[]
   review      review[]
+}
+
+model favorite {
+  id         Int    @id @default(autoincrement())
+  user_email String @db.VarChar(45)
+  tour_id    String @db.VarChar(20)
+  tour       tour   @relation(fields: [tour_id], references: [id])
+  user       user   @relation(fields: [user_email], references: [email])
+
+  @@index([tour_id], name: "fk_favorite_tour1_idx")
+  @@index([user_email], name: "fk_favorite_user1_idx")
 }
