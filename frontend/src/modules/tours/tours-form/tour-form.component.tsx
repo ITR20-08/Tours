@@ -7,7 +7,7 @@ import useStyles from '../../../shared/styles/form.style';
 import {getLocations, getCategories, getBenefits, createTour, createPicture} from '../shared/services/tour.service'
 import {ITourForm, ILocation, IBenefitSelect, ICategory, IBenefit} from '../shared/model'
 import MultiSelect from "react-multi-select-component";
-
+import {ROOT} from '../../../shared/routes'
 
 const TourForm=()=>{
     const classes = useStyles();
@@ -40,14 +40,12 @@ const TourForm=()=>{
     
 
 
-    const adjustBenefitArray=(locs:IBenefit[])=>{
-        const locsOps=[];
-
-        for(let i=0; i<locs.length;i++){
-            locsOps[i]={value:locs[i].id.toString(), label:locs[i].description}
+    const adjustBenefitArray=(bens:IBenefit[])=>{
+        const benefits:IBenefitSelect[]=[];
+        for(let i=0; i<bens.length;i++){
+            benefits[i]={value:bens[i].id.toString(), label:bens[i].description}
         }
-
-        return locsOps;
+        return benefits;
     };
 
     const loadOptions=async()=>{
@@ -62,8 +60,6 @@ const TourForm=()=>{
 
     useEffect(() => {
         loadOptions();
-       // setFiles([]);
-        //setImages([]);
     }, []);
 
     const onSubmit = async(tour:ITourForm) => {
@@ -81,7 +77,7 @@ const TourForm=()=>{
             formdata.append('Tour', tour.id);
             await createPicture(formdata);
         }
-    
+         window.location.href=ROOT;
         
       };
   

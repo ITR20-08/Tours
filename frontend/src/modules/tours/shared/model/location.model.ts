@@ -7,3 +7,7 @@ export interface ILocationSelect{
     value: string, 
     label:string
 }
+export interface Location {
+    country: string,
+    city: string
+}
