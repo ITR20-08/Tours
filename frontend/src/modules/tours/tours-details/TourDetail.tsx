@@ -22,6 +22,11 @@ const TourDetail = () => {
   const history = useHistory();
   const initialState = {
     id: "",
+    location: {
+      country:"", 
+      city:""
+    },
+    start_date: ""
   };
 
   const [tour, setTour] = useState<Tour>(initialState);
