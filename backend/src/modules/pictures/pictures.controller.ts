@@ -54,5 +54,4 @@ export const createPicture:RequestHandler = async(req,res) => {
             picture: data
         }
     });
-    res.json('Location saved');
 };

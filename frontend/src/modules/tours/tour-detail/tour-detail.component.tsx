@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+
+import { useParams, useHistory } from "react-router-dom";
+import { Carousel } from "react-bootstrap";
+
 import { Tour } from "../shared/model/tour.model";
 import { Review } from "../shared/model/review.model";
-import { useParams, useHistory } from "react-router-dom";
-import { Carousel, CarouselItem } from "react-bootstrap";
-import { Rating } from '@material-ui/lab';
-import './tour-detail.css'
 import * as tourService from "../shared/services/tour.service";
 import cookies from "../../../shared/cookies";
+import {AuthContext} from '../../../shared/contexts';
+
+import './tour-detail.css';
+import { Rating } from '@material-ui/lab';
 import {
   ClockHistory,
   LightningChargeFill,
@@ -14,7 +18,7 @@ import {
 } from "react-bootstrap-icons";
 
 interface Params {
-  id?: string;
+  id: string;
 }
 
 const TourDetail = () => {
@@ -22,11 +26,22 @@ const TourDetail = () => {
   const history = useHistory();
   const initialState = {
     id: "",
+    location:{country:'',city:''},
+    start_date:""
   };
+
+
+  const {addToCart,shoppingCart}=useContext(AuthContext);
 
   const [tour, setTour] = useState<Tour>(initialState);
   const [reviews, setReviews] = useState<Review[]>();
   const [pictures, setPictures] = useState<string[]>([]);
+  const [cant,setCant]=useState(0);
+
+  const handleChange=(e:any)=>{
+    setCant(e.target.value);
+ };
+
 
   const loadTour = async (id: string) => {
     const res = await tourService.getTour(id);
@@ -47,6 +62,18 @@ const TourDetail = () => {
       loadPictures(params.id);
     }
   }, [params.id]);
+
+ 
+
+  const verifyTourCart=()=>{
+    var found = false;
+    for(var i = 0; i < shoppingCart.length; i++) {
+        if (shoppingCart[i].id === tour.id) {
+            return true;           
+        }
+    }
+    return found;
+  }
 
   return (
     <div className="container">
@@ -70,6 +97,7 @@ const TourDetail = () => {
             {tour.name}: {tour.category?.description}
           </h1>
           <p>{tour.description}</p>
+          <p>Fecha: {tour.start_date.substring(0,10)}</p>
           <h3 className="font-weight-bold mt-3 mb-3">Información General</h3>
           <div>
             <ClockHistory className="align-middle mr-3" />
@@ -103,22 +131,34 @@ const TourDetail = () => {
               <p className="card-text">
                 Desde ${tour.price_for_person} por persona
               </p>
-              {cookies.get("email") === undefined ? (
+              {cookies.get("email") === undefined?
                 <button
                   type="button"
                   className="btn btn-primary btn-lg btn-block rounded-pill"
                   onClick={() => history.push("/login")}
                 >
                   Inicia sesión para reservar
-                </button>
-              ) : (
+                </button>:""
+              }
+              {verifyTourCart()?<h2>Tour alredy added</h2>:""}
+                
+              { cookies.get("email") && verifyTourCart()===false?
+                <div>
                 <button
-                  type="button"
-                  className="btn btn-primary btn-lg btn-block rounded-pill"
-                >
-                  Reserve ya
-                </button>
-              )}
+                type="button"
+                className="btn btn-primary btn-lg btn-block rounded-pill"
+                onClick={()=>{
+                  addToCart({id:tour.id,name:tour.name!,price:tour.price_for_person!,cant});               
+                  alert("Tour se Agrego al Carrito");
+                }}
+              >
+                Reserve ya
+              </button>
+    
+              <input style={{width:"70px"}} placeholder="Cant" onChange={handleChange} type="number" />   
+              </div>:""
+              }                
+              
             </div>
           </div>
         </div>

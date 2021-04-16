@@ -3,6 +3,7 @@ import {ILocation, ICategory, IBenefit, ITourForm} from '../../../tours/shared/m
 
 const API='http://localhost:5000';
 
+
 export const getLocations=async()=>{
     return await axios.get<ILocation[]>(`${API}/locations`);
 }

@@ -1,16 +1,22 @@
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import AuthContext from './auth.context';
 
-import { ICredentials, IUserForm } from '../../modules/auth/shared/model';
+import { ICredentials } from '../../modules/auth/shared/model';
 import { getUser } from '../services/auth.service';
-
+import {ITourCart} from './auth.context'
 import cookies from '../cookies'
 const AuthProvider: FC = ({ children }) => {
 
-  const history = useHistory();
+  let shoppingCart:ITourCart[]=[];
 
+  const addToCart=(tour:ITourCart)=>{
+      shoppingCart.push(tour);   
+  };
+
+  const pay=()=>{
+    shoppingCart=[];
+  }
 
   const login = async ( credentials : ICredentials) => {
       const res = await getUser(credentials);
@@ -37,7 +43,7 @@ const AuthProvider: FC = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ login, logout }}>
+    <AuthContext.Provider value={{shoppingCart, addToCart, pay, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

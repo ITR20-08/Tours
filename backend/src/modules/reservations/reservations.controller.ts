@@ -17,11 +17,11 @@ export const createReservation:RequestHandler = async(req,res) => {
     await prisma.reservation.create({
         data:{
             tour: {
-                connect: { id: reservation.tour.id },
+                connect: { id: reservation.Tour },
             },
-            quantity:reservation.quantity,
+            quantity:parseInt(reservation.quantity),
             user: {
-                connect: { email: reservation.user.email},
+                connect: { email: reservation.User},
             },
         }
     });

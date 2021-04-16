@@ -7,9 +7,11 @@ import useStyles from '../../../shared/styles/form.style';
 import {getLocations, getCategories, getBenefits, createTour, createPicture} from '../shared/services/tour.service'
 import {ITourForm, ILocation, IBenefitSelect, ICategory, IBenefit} from '../shared/model'
 import MultiSelect from "react-multi-select-component";
-import {ROOT} from '../../../shared/routes'
+import {TOUR_ADD} from '../../../shared/routes'
+import { useHistory } from 'react-router-dom';
 
 const TourForm=()=>{
+    const history=useHistory();
     const classes = useStyles();
     const [ocategories, setOcategories]=useState([] as ICategory[]);
     const [olocations, setOlocations]=useState([] as ILocation[]);
@@ -64,7 +66,7 @@ const TourForm=()=>{
 
     const onSubmit = async(tour:ITourForm) => {
         tour.benefits=[];
-    
+        try{
         for(let i=0;i<selected.length;i++){
             tour.benefits.push(parseInt(selected[i].value));
         }
@@ -77,14 +79,17 @@ const TourForm=()=>{
             formdata.append('Tour', tour.id);
             await createPicture(formdata);
         }
-         window.location.href=ROOT;
-        
+      history.go(0);
+    }catch(e){
+        alert("ID ya utilizado");
+    }
       };
   
       const { handleSubmit ,handleChange,values, errors} = useFormik<ITourForm>({
           onSubmit,
           initialValues: INITIAL_TOUR_FORM_VALUES,
-          validationSchema: TOUR_FORM_SCHEMA
+          validationSchema: TOUR_FORM_SCHEMA,
+         
         });
     return (
         <Container className={classes.root}>
@@ -128,7 +133,7 @@ const TourForm=()=>{
                     </Form.Group>
 
                     <Form.Group as={Col}>
-                    <Form.Label>Duration</Form.Label>
+                    <Form.Label>Duration(Hours)</Form.Label>
                     <Form.Control onChange={handleChange} type="text" placeholder="Enter Duration" name="duration"  value={values.duration}  id={errors.duration ? "error" : ""} />
                     {errors.duration ? (
                             <div id="error_message">{errors.duration}</div>
@@ -139,7 +144,7 @@ const TourForm=()=>{
                 <Form.Row>
                   
                 <Form.Group as={Col}>
-                    <Form.Label>Price for Person</Form.Label>
+                    <Form.Label>Price for Person(Dolars)</Form.Label>
                     <Form.Control onChange={handleChange} type="text" placeholder="Enter Price for Person" name="price_for_person"  value={values.price_for_person}  id={errors.price_for_person ? "error" : ""} />
                     {errors.price_for_person ? (
                             <div id="error_message">{errors.price_for_person}</div>
