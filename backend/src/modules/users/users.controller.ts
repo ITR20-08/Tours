@@ -29,7 +29,8 @@ export const createUser:RequestHandler = async(req,res) => {
 };
 
 export const getUser:RequestHandler = async(req,res) => {   
-    const user= await prisma.user.findFirst({where:{email:req.params.email,password:req.params.password}})
+    const userData=req.body;
+    const user= await prisma.user.findFirst({where:{email:userData.email,password:userData.password}})
     if(!user) return res.status(204).json();
     return res.json(user);
 };
