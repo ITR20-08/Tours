@@ -4,15 +4,7 @@ import prisma from '../../database'
 export const getTours:RequestHandler = async (req,res) => {  
     try {
         const tours = await prisma.tour.findMany({
-            include: {
-                benefits: { 
-                    include:{
-                        benefit: true
-                    }
-                },
-                category: true,
-                location: true
-            }
+           
         });
         return res.json(tours);
     } catch (error) {
